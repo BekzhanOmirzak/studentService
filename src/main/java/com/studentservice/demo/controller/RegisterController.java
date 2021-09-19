@@ -32,7 +32,7 @@ public class RegisterController {
     }
 
     @PostMapping("/{email}/updatestudent")
-    public void updateStudent(@PathVariable String oldEmail, @RequestBody Student student) {
+    public void updateStudent(@PathVariable("email") String oldEmail, @RequestBody Student student) {
         studentService.updateStudent(oldEmail, student);
     }
 
@@ -45,6 +45,11 @@ public class RegisterController {
     public Student getStudentByEmail(@PathVariable("email") String email) {
         return studentService.getStudentByEmail(email);
     }
+    
+    
+
+
+
 
 
 }

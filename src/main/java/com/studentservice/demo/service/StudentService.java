@@ -7,6 +7,7 @@ import com.studentservice.demo.exception.ApiRequestException;
 import com.studentservice.demo.repo.StudentRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import static org.apache.http.entity.ContentType.*;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class StudentService {
 
     private final StudentRepo studentRepo;
@@ -65,6 +67,8 @@ public class StudentService {
 
     public void updateImageLink(String email, MultipartFile file) {
 
+        Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
+
         if (file.isEmpty())
             throw new ApiRequestException("Cannot upload empty file");
 
@@ -78,9 +82,9 @@ public class StudentService {
         metaData.put("Content-Type", file.getContentType());
         metaData.put("Content-Length", String.valueOf(file.getSize()));
 
-        String path = String.format("students/%s/imageLink", email);
+        String path = String.format("%s/%s/imagelink", "studentservice", "bekjan");
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
-
+        student.setImageLink(path);
         try {
             amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
         } catch (IOException ex) {

@@ -31,9 +31,9 @@ public class RegisterController {
         return studentService.loginByEmailAndPassword(email, password);
     }
 
-    @PostMapping("/updatestudent")
-    public void updateStudent(@RequestBody Student student) {
-        studentService.updateStudent(student);
+    @PostMapping("/{email}/updatestudent")
+    public void updateStudent(@PathVariable String oldEmail, @RequestBody Student student) {
+        studentService.updateStudent(oldEmail, student);
     }
 
     @PostMapping("/uploadimage")

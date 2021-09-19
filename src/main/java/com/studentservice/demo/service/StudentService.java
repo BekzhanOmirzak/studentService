@@ -52,16 +52,16 @@ public class StudentService {
     public void updateStudent(String oldEmail, Student student) {
         Student oldStudent = studentRepo.findByEmail(oldEmail)
                 .orElseThrow(() -> new ApiRequestException("User can't be found"));
-
-        oldStudent.setEmail(student.getEmail());
+        if (student.getEmail() != null)
+            oldStudent.setEmail(student.getEmail());
         oldStudent.setLastName(student.getLastName());
         oldStudent.setImageLink(student.getImageLink());
         oldStudent.setMajor(student.getMajor());
+        oldStudent.setName(student.getName());
         oldStudent.setUniversity(student.getUniversity());
         oldStudent.setPhoneNumber(student.getPhoneNumber());
         studentRepo.save(oldStudent);
     }
-
 
     public void updateImageLink(String email, MultipartFile file) {
 

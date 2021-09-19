@@ -27,7 +27,7 @@ public class RegisterController {
     }
 
     @GetMapping("/login")
-    public String loginInByEmailAndPassword(@RequestParam String email,@RequestParam String password) {
+    public String loginInByEmailAndPassword(@RequestParam String email, @RequestParam String password) {
         return studentService.loginByEmailAndPassword(email, password);
     }
 
@@ -38,10 +38,13 @@ public class RegisterController {
 
     @PostMapping("/uploadimage")
     public void uploadImage(@RequestParam String email, @RequestParam("file") MultipartFile file) {
-        studentService.updateImageLink(email,file);
+        studentService.updateImageLink(email, file);
     }
 
-
+    @GetMapping("/{email}")
+    public Student getStudentByEmail(@PathVariable("email") String email) {
+        return studentService.getStudentByEmail(email);
+    }
 
 
 }

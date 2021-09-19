@@ -79,8 +79,9 @@ public class StudentService {
 
     }
 
-    public void deleteStudentByEmail(String email) {
-        studentRepo.deleteByEmail(email);
+
+    public Student getStudentByEmail(String email) {
+        return studentRepo.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User can't be found"));
     }
 
 

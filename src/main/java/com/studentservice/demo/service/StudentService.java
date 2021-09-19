@@ -84,7 +84,8 @@ public class StudentService {
 
         String path = String.format("%s/%s/imagelink", "studentservice", "bekjan");
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
-        student.setImageLink(path);
+        student.setImageLink(fileName);
+        student.setImagePath(path);
         try {
             amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
         } catch (IOException ex) {

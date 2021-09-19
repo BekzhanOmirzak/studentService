@@ -25,6 +25,7 @@ public class Student {
     private String phoneNumber;
     private String university;
     private String imageLink;
+    private String imagePath;
 
     private boolean enabled = false;
 

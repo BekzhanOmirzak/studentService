@@ -20,7 +20,7 @@ public class AmazonS3Service {
     private final StudentRepo studentRepo;
 
 
-    public void upload( String path,
+    public void upload(String path,
                        String fileName,
                        Optional<Map<String, String>> optionalMetaData,
                        InputStream inputStream
@@ -36,6 +36,7 @@ public class AmazonS3Service {
         } catch (AmazonServiceException ex) {
             throw new IllegalArgumentException("Failed to upload the file" + ex);
         }
+
 
     }
 

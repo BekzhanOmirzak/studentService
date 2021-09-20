@@ -50,9 +50,9 @@ public class RegisterController {
     //temporarar
     @PostMapping("/uploadPhoto")
     public String uploadPhoto(@RequestPart(name = "img") MultipartFile file) {
+        studentService.updateImageLink("bekjan", file);
         return "OK";
     }
-
 
 
 }

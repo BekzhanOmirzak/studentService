@@ -82,11 +82,11 @@ public class StudentService {
 
         String path = String.format("%s/%s/imagelink", "studentservice", email);
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
-//        student.setImageLink(fileName);
-//        student.setImagePath(path);
+        student.setImageLink(fileName);
+        student.setImagePath(path);
 
         try {
-            amazonS3Service.upload("studentservice", "image.png", Optional.of(metaData), file.getInputStream());
+            amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
         } catch (IOException ex) {
             throw new ApiRequestException("Failed to upload file");
         }

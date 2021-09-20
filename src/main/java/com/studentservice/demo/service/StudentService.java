@@ -86,11 +86,23 @@ public class StudentService {
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
         student.setImageLink(fileName);
         student.setImagePath(path);
+
         try {
             amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
         } catch (IOException ex) {
             throw new ApiRequestException("Failed to upload file");
         }
+
+
+    }
+
+    public void updatePhotoLink(String email, String photo) {
+        Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
+
+        if (photo.isEmpty())
+            throw new ApiRequestException("Cannot upload empty file");
+
+        byte[] decodedBytes = Base64.getDecoder().decode(photo);
 
 
     }

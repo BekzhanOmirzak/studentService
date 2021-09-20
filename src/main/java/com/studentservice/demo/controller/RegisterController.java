@@ -37,7 +37,7 @@ public class RegisterController {
     }
 
     @PostMapping("/uploadimage")
-    public void uploadImage(@RequestParam String email, @RequestParam("file") MultipartFile file) {
+    public void uploadImage(@RequestParam String email, @RequestPart("file") MultipartFile file) {
         studentService.updateImageLink(email, file);
     }
 
@@ -45,11 +45,13 @@ public class RegisterController {
     public Student getStudentByEmail(@PathVariable("email") String email) {
         return studentService.getStudentByEmail(email);
     }
-    
-    
 
 
-
+    //temporarar
+    @PostMapping("/uploadphoto")
+    public void uploadPhoto(@RequestParam String email, @RequestParam String photo) {
+        studentService.updatePhotoLink(email, photo);
+    }
 
 
 }

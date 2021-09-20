@@ -78,7 +78,7 @@ public class StudentService {
 //                IMAGE_JPEG.getMimeType()).contains(file.getContentType())) {
 //            throw new ApiRequestException("File upload is not a image");
 //        }
-//        Map<String, String> metaData = new HashMap<>();
+        Map<String, String> metaData = new HashMap<>();
 //        metaData.put("Content-Type", file.getContentType());
 //        metaData.put("Content-Length", String.valueOf(file.getSize()));
 //
@@ -88,7 +88,7 @@ public class StudentService {
 //        student.setImagePath(path);
 
         try {
-            amazonS3Service.upload("studentservice", "image.png", Optional.of(null), file.getInputStream());
+            amazonS3Service.upload("studentservice", "image.png", Optional.of(metaData), file.getInputStream());
         } catch (IOException ex) {
             throw new ApiRequestException("Failed to upload file");
         }

@@ -2,6 +2,7 @@ package com.studentservice.demo.controller;
 
 
 import com.studentservice.demo.entity.Student;
+import com.studentservice.demo.service.AmazonS3Service;
 import com.studentservice.demo.service.StudentService;
 import com.studentservice.demo.service.TokenService;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ public class RegisterController {
 
     private final StudentService studentService;
     private final TokenService tokenService;
+    private final AmazonS3Service amazonS3Service;
 
     @PostMapping("/register")
     public String registerStudent(@RequestBody Student student) {
@@ -36,10 +38,6 @@ public class RegisterController {
         studentService.updateStudent(oldEmail, student);
     }
 
-    @PostMapping("/uploadimage")
-    public void uploadImage(@RequestParam String email, @RequestPart("file") MultipartFile file) {
-        studentService.updateImageLink(email, file);
-    }
 
     @GetMapping("/{email}")
     public Student getStudentByEmail(@PathVariable("email") String email) {
@@ -47,12 +45,17 @@ public class RegisterController {
     }
 
 
-    //temporarar
     @PostMapping("/uploadPhoto")
     public String uploadPhoto(@RequestParam String email, @RequestPart(name = "image") MultipartFile image) {
         studentService.updateImageLink(email, image);
         return "OK";
     }
+
+    @GetMapping("/downloadPhoto")
+    public byte[] downloadPhoto(@RequestParam("imagePath") String path, @RequestParam("imageLink") String key) {
+        return amazonS3Service.downloadPhoto(path,key);
+    }
+
 
 
 }

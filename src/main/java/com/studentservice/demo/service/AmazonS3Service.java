@@ -4,10 +4,14 @@ package com.studentservice.demo.service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.studentservice.demo.repo.StudentRepo;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.util.IOUtils;
+import com.studentservice.demo.exception.ApiRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 import java.util.Optional;
@@ -17,7 +21,6 @@ import java.util.Optional;
 public class AmazonS3Service {
 
     private final AmazonS3 amazonS3;
-    private final StudentRepo studentRepo;
 
 
     public void upload(String path,
@@ -41,4 +44,15 @@ public class AmazonS3Service {
     }
 
 
+    public byte[] downloadPhoto(String path, String key) {
+
+        try {
+            S3Object object = amazonS3.getObject(path, key);
+            S3ObjectInputStream objectContent = object.getObjectContent();
+            return IOUtils.toByteArray(objectContent);
+        } catch (AmazonServiceException | IOException ex) {
+            throw new ApiRequestException("Failed to download file ", ex);
+        }
+
+    }
 }

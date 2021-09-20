@@ -10,9 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+
+import static org.apache.http.entity.ContentType.*;
 
 @Service
 @AllArgsConstructor
@@ -55,7 +58,6 @@ public class StudentService {
         if (student.getEmail() != null)
             oldStudent.setEmail(student.getEmail());
         oldStudent.setLastName(student.getLastName());
-        oldStudent.setImageLink(student.getImageLink());
         oldStudent.setMajor(student.getMajor());
         oldStudent.setName(student.getName());
         oldStudent.setUniversity(student.getUniversity());
@@ -67,13 +69,13 @@ public class StudentService {
 
         Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
 
-//        if (file.isEmpty())
-//            throw new ApiRequestException("Cannot upload empty file");
-//
+        if (file.isEmpty())
+            throw new ApiRequestException("Cannot upload empty file");
+
 //        if (!Arrays.asList(IMAGE_PNG.getMimeType(),
 //                IMAGE_JPEG.getMimeType(),
 //                IMAGE_GIF.getMimeType(),
-//                IMAGE_JPEG.getMimeType()).contains(file.getContentType())) {
+//                IMAGE_.getMimeType()).contains(file.getContentType())) {
 //            throw new ApiRequestException("File upload is not a image");
 //        }
         Map<String, String> metaData = new HashMap<>();
@@ -91,24 +93,15 @@ public class StudentService {
             throw new ApiRequestException("Failed to upload file");
         }
 
-
     }
 
-    public void updatePhotoLink(String email, String photo) {
-        Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
-
-        if (photo.isEmpty())
-            throw new ApiRequestException("Cannot upload empty file");
-
-        byte[] decodedBytes = Base64.getDecoder().decode(photo);
-
-
-    }
 
 
     public Student getStudentByEmail(String email) {
         return studentRepo.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User can't be found"));
     }
+
+
 
 
 }

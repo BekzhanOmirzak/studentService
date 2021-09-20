@@ -67,23 +67,23 @@ public class StudentService {
 
     public void updateImageLink(String email, MultipartFile file) {
 
-        Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
-
-        if (file.isEmpty())
-            throw new ApiRequestException("Cannot upload empty file");
-
-        if (!Arrays.asList(IMAGE_PNG.getMimeType(),
-                IMAGE_JPEG.getMimeType(),
-                IMAGE_GIF.getMimeType(),
-                IMAGE_JPEG.getMimeType()).contains(file.getContentType())) {
-            throw new ApiRequestException("File upload is not a image");
-        }
-        Map<String, String> metaData = new HashMap<>();
-//        metaData.put("Content-Type", file.getContentType());
-//        metaData.put("Content-Length", String.valueOf(file.getSize()));
+//        Student student = studentRepo.findByEmail(email).orElseThrow(() -> new ApiRequestException("Student can't be found..."));
 //
-//        String path = String.format("%s/%s/imagelink", "studentservice", email);
-//        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
+//        if (file.isEmpty())
+//            throw new ApiRequestException("Cannot upload empty file");
+//
+//        if (!Arrays.asList(IMAGE_PNG.getMimeType(),
+//                IMAGE_JPEG.getMimeType(),
+//                IMAGE_GIF.getMimeType(),
+//                IMAGE_JPEG.getMimeType()).contains(file.getContentType())) {
+//            throw new ApiRequestException("File upload is not a image");
+//        }
+        Map<String, String> metaData = new HashMap<>();
+        metaData.put("Content-Type", file.getContentType());
+        metaData.put("Content-Length", String.valueOf(file.getSize()));
+
+        String path = String.format("%s/%s/imagelink", "studentservice", email);
+        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
 //        student.setImageLink(fileName);
 //        student.setImagePath(path);
 

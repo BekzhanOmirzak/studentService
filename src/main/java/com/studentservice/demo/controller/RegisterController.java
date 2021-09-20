@@ -49,8 +49,8 @@ public class RegisterController {
 
     //temporarar
     @PostMapping("/uploadPhoto")
-    public String uploadPhoto(@RequestParam String email, @RequestPart(name = "img") MultipartFile file) {
-        studentService.updateImageLink(email, file);
+    public String uploadPhoto(@RequestParam String email, @RequestPart(name = "image") MultipartFile image) {
+        studentService.updateImageLink(email, image);
         return "OK";
     }
 

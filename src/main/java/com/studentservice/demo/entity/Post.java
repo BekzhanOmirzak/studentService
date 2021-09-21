@@ -18,12 +18,15 @@ public class Post {
     private String subject;
     private String content;
     private String imageLink;
+    private String imagePath;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Student student;
 
     private LocalDateTime createdAt;
 
-
-
+    public Post(String subject, String content) {
+        this.subject = subject;
+        this.content = content;
+    }
 }

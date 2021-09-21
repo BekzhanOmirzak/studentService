@@ -82,7 +82,6 @@ public class AmazonS3Service {
                 imageFile.setFileName(key);
                 imageFile.setPath(path);
                 imageFileList.add(imageFile);
-
             }
 
         } while (result.isTruncated());

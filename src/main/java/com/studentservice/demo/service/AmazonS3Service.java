@@ -3,16 +3,18 @@ package com.studentservice.demo.service;
 
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
+import com.studentservice.demo.entity.BucketName;
+import com.studentservice.demo.entity.ImageFile;
 import com.studentservice.demo.exception.ApiRequestException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -55,4 +57,39 @@ public class AmazonS3Service {
         }
 
     }
+
+    public List<ImageFile> getListOfPhotos(String email) {
+        String bucketName = BucketName.BUCKET_NAME.getBucketName();
+        ListObjectsV2Request listObjectsRequest = new ListObjectsV2Request()
+                .withBucketName(bucketName).withPrefix(email + "/imagelink");
+
+        List<ImageFile> imageFileList = new ArrayList<>();
+
+        ListObjectsV2Result result;
+
+        do {
+            result = amazonS3.listObjectsV2(listObjectsRequest);
+
+            for (S3ObjectSummary summary : result.getObjectSummaries()) {
+                String fullPath = email + "/" + "imagelink/";
+                String key = summary.getKey().substring(fullPath.length());
+                String path = BucketName.BUCKET_NAME.getBucketName() + "/" + email + "/imagelink";
+                System.out.println("Full Path  : " + bucketName + "/" + summary.getKey());
+                System.out.println("Path : " + path);
+                System.out.println("Key  : " + key);
+
+                ImageFile imageFile = new ImageFile();
+                imageFile.setFileName(key);
+                imageFile.setPath(path);
+                imageFileList.add(imageFile);
+
+            }
+
+        } while (result.isTruncated());
+
+        return imageFileList;
+
+    }
+
+
 }

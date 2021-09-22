@@ -54,7 +54,7 @@ public class StudentService {
 
     public void updateStudent(String oldEmail, Student student) {
         Student oldStudent = studentRepo.findByEmail(oldEmail)
-                .orElseThrow(() -> new ApiRequestException("User can't be found"));
+                 .orElseThrow(() -> new ApiRequestException("User can't be found"));
         if (student.getEmail() != null)
             oldStudent.setEmail(student.getEmail());
         oldStudent.setLastName(student.getLastName());

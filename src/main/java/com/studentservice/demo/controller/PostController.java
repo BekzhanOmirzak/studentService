@@ -16,22 +16,18 @@ import org.springframework.web.multipart.MultipartFile;
 public class PostController {
 
 
-
     @Autowired
     private final PostService postService;
 
 
-    @PostMapping("/{email}/createPost")
-    public ResponseEntity<Void> createPost(@PathVariable("email") String email,
+    @PostMapping("/createPost")
+    public ResponseEntity<Void> createPost(@RequestParam("email") String email,
                                            @RequestParam("subject") String subject,
                                            @RequestParam("content") String content,
                                            @RequestPart("image") MultipartFile file) {
-        postService.createPost(email, new Post(subject,content),file);
+        postService.createPost(email, new Post(subject, content), file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
-
-
-
 
 
 }

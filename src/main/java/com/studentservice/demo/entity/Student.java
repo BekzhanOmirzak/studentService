@@ -29,8 +29,5 @@ public class Student {
 
     private boolean enabled = false;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "student", cascade = CascadeType.REMOVE)
-    private List<Post> posts;
-
 
 }

@@ -74,6 +74,7 @@ public class AmazonS3Service {
                 String fullPath = email + "/" + "imagelink/";
                 String key = summary.getKey().substring(fullPath.length());
                 String path = BucketName.BUCKET_NAME.getBucketName() + "/" + email + "/imagelink";
+                
                 System.out.println("Full Path  : " + bucketName + "/" + summary.getKey());
                 System.out.println("Path : " + path);
                 System.out.println("Key  : " + key);
@@ -89,6 +90,8 @@ public class AmazonS3Service {
         return imageFileList;
 
     }
+
+
 
 
 }

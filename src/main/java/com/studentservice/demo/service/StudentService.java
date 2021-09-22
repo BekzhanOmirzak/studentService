@@ -95,9 +95,6 @@ public class StudentService {
 
     }
 
-
-
-
     public Student getStudentByEmail(String email) {
         return studentRepo.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User can't be found"));
     }

@@ -32,8 +32,6 @@ public class PostService {
         post.setStudent(student);
         post.setCreatedAt(LocalDateTime.now());
 
-        if (file.isEmpty())
-            throw new ApiRequestException("Cannot upload empty file");
 
         Map<String, String> metaData = new HashMap<>();
         metaData.put("Content-Type", file.getContentType());
@@ -43,8 +41,10 @@ public class PostService {
         String path = String.format("%s/%s", "studentservice", "posts");
         String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
 
-        post.setImagePath(path);
-        post.setImageLink(fileName);
+        if (!file.isEmpty()) {
+            post.setImagePath(path);
+            post.setImageLink(fileName);
+        }
 
         try {
             amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
@@ -54,8 +54,6 @@ public class PostService {
         }
 
     }
-
-
 
 
 }

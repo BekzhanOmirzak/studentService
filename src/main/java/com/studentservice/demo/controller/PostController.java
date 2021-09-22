@@ -22,7 +22,10 @@ public class PostController {
 
 
     @PostMapping("/{email}/createPost")
-    public ResponseEntity<Void> createPost(@PathVariable("email") String email,@RequestParam("subject") String subject,@RequestParam("content") String content, @RequestPart("image")MultipartFile file) {
+    public ResponseEntity<Void> createPost(@PathVariable("email") String email,
+                                           @RequestParam("subject") String subject,
+                                           @RequestParam("content") String content,
+                                           @RequestPart("image")MultipartFile file) {
         postService.createPost(email, new Post(subject,content),file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

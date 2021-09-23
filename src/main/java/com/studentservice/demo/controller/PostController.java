@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 @AllArgsConstructor
@@ -28,6 +30,21 @@ public class PostController {
         postService.createPost(email, new Post(subject, content), file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @GetMapping("/randomPosts")
+    public ResponseEntity<List<Post>> getRandomPosts() {
+        List<Post> posts = postService.getListOfPostsRandomly();
+        return ResponseEntity.ok(posts);
+    }
+
+    @GetMapping("/deletePostById/{id}")
+    public void deletePostById(@PathVariable("id") Long id) {
+        postService.removePostsById(id);
+    }
+
+
+
+
 
 
 

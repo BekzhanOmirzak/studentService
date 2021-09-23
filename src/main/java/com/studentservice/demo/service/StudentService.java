@@ -10,12 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-
-import static org.apache.http.entity.ContentType.*;
 
 @Service
 @AllArgsConstructor
@@ -54,7 +51,7 @@ public class StudentService {
 
     public void updateStudent(String oldEmail, Student student) {
         Student oldStudent = studentRepo.findByEmail(oldEmail)
-                 .orElseThrow(() -> new ApiRequestException("User can't be found"));
+                .orElseThrow(() -> new ApiRequestException("User can't be found"));
         if (student.getEmail() != null)
             oldStudent.setEmail(student.getEmail());
         oldStudent.setLastName(student.getLastName());
@@ -100,6 +97,9 @@ public class StudentService {
     }
 
 
+    public List<Student> getAllStudentList() {
+        return studentRepo.findAll();
+    }
 
 
 }

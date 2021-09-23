@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 
 @Repository
 @Transactional
-public interface StudentRepo extends JpaRepository<Student,Long> {
+public interface StudentRepo extends JpaRepository<Student, Long> {
 
     Optional<Student> findByEmail(String email);
 
@@ -22,8 +23,12 @@ public interface StudentRepo extends JpaRepository<Student,Long> {
     void enableStudent(String email);
 
 
-    Optional<Student> findByEmailAndPassword(String email,String password);
+    Optional<Student> findByEmailAndPassword(String email, String password);
 
     void deleteByEmail(String email);
+
+
+
+
 
 }

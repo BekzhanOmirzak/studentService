@@ -62,7 +62,15 @@ public class RegisterController {
     public List<ImageFile> getListOfPhotos(@RequestParam("email") String email) {
         return amazonS3Service.getListOfPhotos(email);
     }
-        
+
+
+    //temporarily
+    @GetMapping("/listAllStudents")
+    public List<Student> getStudentList() {
+        return studentService.getAllStudentList();
+    }
+
+
 
 
 

@@ -11,10 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @AllArgsConstructor
@@ -34,26 +31,39 @@ public class PostService {
 
 
         Map<String, String> metaData = new HashMap<>();
-        metaData.put("Content-Type", file.getContentType());
-        metaData.put("Content-Length", String.valueOf(file.getSize()));
-
+        if (file != null) {
+            metaData.put("Content-Type", file.getContentType());
+            metaData.put("Content-Length", String.valueOf(file.getSize()));
+        }
 
         String path = String.format("%s/%s", "studentservice", "posts");
-        String fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
+        String fileName = "";
 
-        if (!file.isEmpty()) {
+        if (file != null && !file.isEmpty()) {
             post.setImagePath(path);
+            fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
             post.setImageLink(fileName);
         }
 
         try {
-            amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
+            if (file != null && !file.isEmpty())
+                amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
             postRepo.save(post);
         } catch (IOException ex) {
             throw new ApiRequestException("Failed to upload file");
         }
 
     }
+
+
+    public List<Post> getListOfPostsRandomly() {
+        return postRepo.getListOfPostsRandomly();
+    }
+
+    public void removePostsById(Long id) {
+        postRepo.deleteById(id);
+    }
+
 
 
 }

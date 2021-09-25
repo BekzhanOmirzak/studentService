@@ -5,6 +5,9 @@ import com.studentservice.demo.entity.Post;
 import com.studentservice.demo.service.PostService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +35,8 @@ public class PostController {
     }
 
     @GetMapping("/randomPosts")
-    public ResponseEntity<List<Post>> getRandomPosts() {
-        List<Post> posts = postService.getListOfPostsRandomly();
+    public ResponseEntity<List<Post>> getRandomPosts(int page) {
+        List<Post> posts = postService.getListOfPostsRandomly(page);
         return ResponseEntity.ok(posts);
     }
 
@@ -41,9 +44,6 @@ public class PostController {
     public void deletePostById(@PathVariable("id") Long id) {
         postService.removePostsById(id);
     }
-
-
-
 
 
 

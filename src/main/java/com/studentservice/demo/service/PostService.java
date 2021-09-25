@@ -6,6 +6,7 @@ import com.studentservice.demo.entity.Student;
 import com.studentservice.demo.exception.ApiRequestException;
 import com.studentservice.demo.repo.PostRepo;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +37,7 @@ public class PostService {
             metaData.put("Content-Length", String.valueOf(file.getSize()));
         }
 
-        String path = String.format("%s/%s", "studentservice", "posts");
+        String path = String.format("%s/%s/%s", "studentservice", "posts", post.getId() + "");
         String fileName = "";
 
         if (file != null && !file.isEmpty()) {
@@ -55,15 +56,13 @@ public class PostService {
 
     }
 
-
-    public List<Post> getListOfPostsRandomly() {
-        return postRepo.getListOfPostsRandomly();
+    public List<Post> getListOfPostsRandomly(int page) {
+        return postRepo.getListOfPostsRandomly(PageRequest.of(page, 5));
     }
 
     public void removePostsById(Long id) {
         postRepo.deleteById(id);
     }
-
 
 
 }

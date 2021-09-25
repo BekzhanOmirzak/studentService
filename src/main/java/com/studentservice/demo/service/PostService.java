@@ -42,7 +42,7 @@ public class PostService {
 
         if (file != null && !file.isEmpty()) {
             post.setImagePath(path);
-            fileName = String.format("%s-%s", file.getOriginalFilename(), UUID.randomUUID().toString());
+            fileName = String.format("%s-%s", UUID.randomUUID().toString(),file.getOriginalFilename());
             post.setImageLink(fileName);
         }
 

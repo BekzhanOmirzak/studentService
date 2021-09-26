@@ -35,7 +35,7 @@ public class PostController {
     }
 
     @GetMapping("/randomPosts")
-    public ResponseEntity<List<Post>> getRandomPosts(int page) {
+    public ResponseEntity<List<Post>> getRandomPosts(@RequestParam("page") int page) {
         List<Post> posts = postService.getListOfPostsRandomly(page);
         return ResponseEntity.ok(posts);
     }
@@ -44,8 +44,6 @@ public class PostController {
     public void deletePostById(@PathVariable("id") Long id) {
         postService.removePostsById(id);
     }
-
-
 
 
 }

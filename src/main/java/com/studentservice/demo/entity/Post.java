@@ -25,6 +25,9 @@ public class Post {
 
     private LocalDateTime createdAt;
 
+    @Transient
+    private byte[] image_content;
+
     public Post(String subject, String content) {
         this.subject = subject;
         this.content = content;

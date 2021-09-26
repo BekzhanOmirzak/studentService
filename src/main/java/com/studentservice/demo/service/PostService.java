@@ -59,7 +59,13 @@ public class PostService {
     }
 
     public List<Post> getListOfPostsRandomly(int page) {
-        return postRepo.getListOfPostsRandomly(PageRequest.of(page, 5));
+
+        List<Post> posts = postRepo.getListOfPostsRandomly(PageRequest.of(page, 5));
+
+        posts.forEach(post -> {
+            post.setImage_content(amazonS3Service.downloadPhoto(post.getImagePath(), post.getImageLink()));
+        });
+        return posts;
     }
 
     public void removePostsById(Long id) {

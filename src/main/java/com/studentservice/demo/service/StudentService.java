@@ -80,7 +80,7 @@ public class StudentService {
         metaData.put("Content-Length", String.valueOf(file.getSize()));
 
         String path = String.format("%s/%s/imagelink", "studentservice", email);
-        String fileName = String.format("%s-%s", UUID.randomUUID().toString(),file.getOriginalFilename());
+        String fileName = String.format("%s-%s", System.currentTimeMillis()+"",file.getOriginalFilename());
         student.setImageLink(fileName);
         student.setImagePath(path);
 

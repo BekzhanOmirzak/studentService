@@ -8,6 +8,7 @@ import com.studentservice.demo.repo.PostRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,6 +17,7 @@ import java.util.*;
 
 @Service
 @AllArgsConstructor
+@Transactional
 public class PostService {
 
     private final PostRepo postRepo;
@@ -30,26 +32,26 @@ public class PostService {
         post.setStudent(student);
         post.setCreatedAt(LocalDateTime.now());
 
-
+        postRepo.save(post);
         Map<String, String> metaData = new HashMap<>();
         if (file != null) {
             metaData.put("Content-Type", file.getContentType());
             metaData.put("Content-Length", String.valueOf(file.getSize()));
         }
-
+        System.out.println("Posts id : " + post.getId());
         String path = String.format("%s/%s/%s", "studentservice", "posts", post.getId() + "");
         String fileName = "";
 
         if (file != null && !file.isEmpty()) {
             post.setImagePath(path);
-            fileName = String.format("%s-%s", UUID.randomUUID().toString(),file.getOriginalFilename());
+            fileName = String.format("%s-%s", System.currentTimeMillis() + "", file.getOriginalFilename());
             post.setImageLink(fileName);
         }
 
         try {
             if (file != null && !file.isEmpty())
                 amazonS3Service.upload(path, fileName, Optional.of(metaData), file.getInputStream());
-            postRepo.save(post);
+
         } catch (IOException ex) {
             throw new ApiRequestException("Failed to upload file");
         }

@@ -60,13 +60,12 @@ public class PostService {
 
     public List<Post> getListOfPostsRandomly(int page) {
 
-        List<Post> posts = postRepo.getListOfPostsRandomly(PageRequest.of(page, 2));
+        List<Post> posts = postRepo.getListOfPostsRandomly(PageRequest.of(page, 30));
 
         posts.forEach(post -> {
             if (post.getImagePath() != null && post.getImageLink() != null) {
                 byte[] content = amazonS3Service.downloadPhoto(post.getImagePath(), post.getImageLink());
                 post.setImage_content(content);
-                System.out.println("Image Content in byte array : ");
             }
         });
         return posts;
